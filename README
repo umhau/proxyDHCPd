@@ -1,5 +1,14 @@
 proxyDHCPd
 
+--------------------------------------------------------------------------------
+TODO:
+
+- Replace all_interfaces() from net.py. The new code in net3.py works.
+
+- Test & find any other errors.
+
+--------------------------------------------------------------------------------
+
 proxyDHCPd is a proxy DHCP implementation made in pure python and is fully 
 compliant with the PXE specification. As a pure python project, it can run on 
 Windows, Linux and MacOS (or any other platform that supports python)
