@@ -18,8 +18,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 from proxyconfig import parse_config
 from dhcplib.dhcp_network import *
 from dhcplib.dhcp_packet import *
-import logging
-import logging.handlers
+# import logging                                                             # OLD
+# import logging.handlers                                                    # OLD
+import syslog                                                              # NEW
 import sys
 import net
 import traceback
@@ -29,26 +30,36 @@ class DhcpServerBase(DhcpNetwork) :
         
         DhcpNetwork.__init__(self,listen_address,server_listen_port,client_listen_port)
         
-        self.logger = logging.getLogger('proxydhcp')
-        #self.logger.setLevel(logging.INFO)
-        self.logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s %(levelname)s ProxyDHCP: %(message)s')  
-        self.consoleLog = logging.StreamHandler()
-        self.consoleLog.setFormatter(formatter)
-        self.logger.addHandler(self.consoleLog)
-        if sys.platform == 'win32':
-            self.fileLog = logging.FileHandler('proxy.log')
-            self.fileLog.setFormatter(formatter)
-            self.logger.addHandler(self.fileLog)
-        else:
-            if sys.platform == 'darwin':
-                self.syslogLog = logging.handlers.SysLogHandler("/var/run/syslog")
-            else:
-                self.syslogLog = logging.handlers.SysLogHandler("/dev/log")
-            self.syslogLog.setFormatter(formatter)
-            self.syslogLog.setLevel(logging.INFO)
-            self.logger.addHandler(self.syslogLog)
+        # Define the logging system - change this!
+
+        # self.logger = logging.getLogger('proxydhcp')
+        # #self.logger.setLevel(logging.INFO)
+        # self.logger.setLevel(logging.DEBUG)
+
+        # formatter = logging.Formatter('%(asctime)s %(levelname)s ProxyDHCP: %(message)s')  
+        # self.consoleLog = logging.StreamHandler()
+        # self.consoleLog.setFormatter(formatter)
+        # self.logger.addHandler(self.consoleLog)
+
+        # if sys.platform == 'win32':
+        #     self.fileLog = logging.FileHandler('proxy.log')
+        #     self.fileLog.setFormatter(formatter)
+        #     self.logger.addHandler(self.fileLog)
+        # else:
+        #     if sys.platform == 'darwin':
+        #         self.syslogLog = logging.handlers.SysLogHandler("/var/run/syslog")
+        #     else:
+        #         self.syslogLog = logging.handlers.SysLogHandler("/dev/log")
+        #     self.syslogLog.setFormatter(formatter)
+        #     self.syslogLog.setLevel(logging.INFO)
+        #     self.logger.addHandler(self.syslogLog)
         
+        # replace with this!
+        # syslog.syslog("This is a test message")
+        # syslog.syslog(syslog.LOG_INFO, "Test message at INFO priority")
+        # syslog.syslog(syslog.LOG_DEBUG, "Test message at DEBUG priority")
+        
+
         try :
             self.dhcp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.dhcp_socket.setsockopt(socket.SOL_SOCKET,socket.SO_BROADCAST,1)
@@ -56,7 +67,9 @@ class DhcpServerBase(DhcpNetwork) :
                 self.dhcp_socket.bind((self.listen_address,self.listen_port))
             else:
                 # Linux and windows differ on the way they bind to broadcast sockets
+                print self.listen_address
                 ifname = net.get_dev_name(self.listen_address)
+                print ifname
                 self.dhcp_socket.setsockopt(socket.SOL_SOCKET,IN.SO_BINDTODEVICE,ifname+'\0')
                 self.dhcp_socket.bind(('',self.listen_port))
         except socket.error, msg :
@@ -72,11 +85,15 @@ class DhcpServerBase(DhcpNetwork) :
                 traceback.print_exc()
         self.log('info','Service shutdown')
     
+
+    # don't forget this!
     def log(self,level,message):
         if level == 'info':
-            self.logger.info(message)
+            # self.logger.info(message)
+            syslog.syslog(syslog.LOG_INFO, message)
         else:
-            self.logger.debug(message)
+            # self.logger.debug(message)
+            syslog.syslog(syslog.LOG_DEBUG, message)
             
 class DHCPD(DhcpServerBase):
     loop = True
