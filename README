@@ -18,8 +18,7 @@ TODO:
 --------------------------------------------------------------------------------
 
 proxyDHCPd is a proxy DHCP implementation made in pure python and is fully 
-compliant with the PXE specification. As a pure python project, it can run on 
-Windows, Linux and MacOS (or any other platform that supports python)
+compliant with the PXE specification. It is a pure python project.
 
 But what is proxy DHCP?
 
@@ -49,8 +48,3 @@ It still lacks an init.d script to start automatically (will work on it soon)
 
 The dhcplib module is actually a modified version of pydhcplib
 http://pydhcplib.tuxfamily.org/
-
-Windows came with an service file to be installed, more instructions to this
-soon ;-)
-
-And hey! Its free open source software under GPL license :-)

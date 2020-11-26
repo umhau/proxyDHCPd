@@ -29,36 +29,6 @@ class DhcpServerBase(DhcpNetwork) :
     def __init__(self, listen_address="0.0.0.0", client_listen_port=68,server_listen_port=67) :
         
         DhcpNetwork.__init__(self,listen_address,server_listen_port,client_listen_port)
-        
-        # Define the logging system - change this!
-
-        # self.logger = logging.getLogger('proxydhcp')
-        # #self.logger.setLevel(logging.INFO)
-        # self.logger.setLevel(logging.DEBUG)
-
-        # formatter = logging.Formatter('%(asctime)s %(levelname)s ProxyDHCP: %(message)s')  
-        # self.consoleLog = logging.StreamHandler()
-        # self.consoleLog.setFormatter(formatter)
-        # self.logger.addHandler(self.consoleLog)
-
-        # if sys.platform == 'win32':
-        #     self.fileLog = logging.FileHandler('proxy.log')
-        #     self.fileLog.setFormatter(formatter)
-        #     self.logger.addHandler(self.fileLog)
-        # else:
-        #     if sys.platform == 'darwin':
-        #         self.syslogLog = logging.handlers.SysLogHandler("/var/run/syslog")
-        #     else:
-        #         self.syslogLog = logging.handlers.SysLogHandler("/dev/log")
-        #     self.syslogLog.setFormatter(formatter)
-        #     self.syslogLog.setLevel(logging.INFO)
-        #     self.logger.addHandler(self.syslogLog)
-        
-        # replace with this!
-        # syslog.syslog("This is a test message")
-        # syslog.syslog(syslog.LOG_INFO, "Test message at INFO priority")
-        # syslog.syslog(syslog.LOG_DEBUG, "Test message at DEBUG priority")
-        
 
         try :
             self.dhcp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
