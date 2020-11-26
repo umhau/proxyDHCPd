@@ -21,27 +21,8 @@ import sys, os
 from distutils.core import setup
 
 if os.name == 'nt':
-    from py2exe.build_exe import py2exe
-
-    setup(name='proxydhcpd',
-          version='0.1',
-          description = "proxy DHCP server",
-          long_description="proxyDHCPd is a proxy DHCP implementation made in pure python and is fully \
-                            compliant with the PXE specification. As a pure python project, it can run on \
-                            Windows, Linux and MacOS (or any other platform that supports python)",
-          url='http://github.com/gmoro/proxyDHCPd',
-          author='Guilherme Moro',
-          author_email='guilherme.moro@gmail.com',
-          console=['proxydhpcd.py'],
-		  service=[{'modules': ['proxyservice'], 'cmdline_style': 'pywin32'}],
-          options={"py2exe": {
-                        "optimize": 2,
-                        "bundle_files": 1
-                        }
-                   },
-          data_files=[('',['proxy.ini'])],
-          zipfile = None
-          )
+    print "Windows installation no longer supported. :/"
+    sys.exit(1)
 else:
 	os.system("sed 's:usr:"+sys.prefix[1:]+":' bin/proxydhcpd.in >bin/proxydhcpd")
 	os.system("sed 's:usr:"+sys.prefix[1:]+":' scripts/proxydhcpd.sh.in >scripts/proxydhcpd")
