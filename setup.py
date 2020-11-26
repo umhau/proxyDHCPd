@@ -27,7 +27,7 @@ else:
 	os.system("sed 's:usr:"+sys.prefix[1:]+":' bin/proxydhcpd.in >bin/proxydhcpd")
 	os.system("sed 's:usr:"+sys.prefix[1:]+":' scripts/proxydhcpd.sh.in >scripts/proxydhcpd")
 	setup(name='proxydhcpd',
-    version="0.1",
+    version="0.2",
     license='GPL v2',
     description="proxy DHCP server",
     author='Guilherme Moro',
