@@ -23,6 +23,7 @@ import sys
 import thread
 import time
 import traceback
+import syslog                                                              # NEW
 
 
 def usage():
@@ -119,8 +120,10 @@ def main():
             pid = os.fork()
             if pid > 0:
                 # Exit from second parent
-                server.logger.info("proxy daemon has PID %d" % pid)
-                server.logger.removeHandler(server.consoleLog)
+                syslog.syslog(syslog.LOG_INFO, "proxy daemon has PID %d" % pid)
+                # server.logger.info("proxy daemon has PID %d" % pid)
+                # syslog.syslog(syslog.LOG_INFO, "proxy daemon has PID %d" % pid)
+                # server.logger.removeHandler(server.consoleLog)
                 sys.exit(0)
         except OSError, e:
             print( "Fork #2 failed: %d (%s)" % ( e.errno, e.strerror) )
@@ -128,17 +131,26 @@ def main():
 
     # Start loop
     if server and proxyserver:
-        server.logger.info('Listening on ' + server.config['proxy']['listen_address'])
+        # server.logger.info('Listening on ' + server.config['proxy']['listen_address'])
+        syslog.syslog(syslog.LOG_INFO, 'Listening on ' + server.config['proxy']['listen_address'])
         thread.start_new_thread(server.run,())
     thread.start_new_thread(proxyserver.run,())
 
-    while proxyserver.loop and server.loop:
-        try:
-            time.sleep(1)
-        except (KeyboardInterrupt,SystemExit):
-            print "Exiting...."
-            server.loop = False
-            proxyserver.loop = False
+    if not proxy_only:
+        while proxyserver.loop and server.loop:
+            try:
+                time.sleep(1)
+            except (KeyboardInterrupt,SystemExit):
+                print "Exiting...."
+                server.loop = False
+                proxyserver.loop = False
+    else:
+        while proxyserver.loop:
+            try:
+                time.sleep(1)
+            except (KeyboardInterrupt,SystemExit):
+                print "Exiting...."
+                proxyserver.loop = False
             
 if __name__ == "__main__":
     main()

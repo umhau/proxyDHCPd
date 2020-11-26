@@ -3,9 +3,17 @@ proxyDHCPd
 --------------------------------------------------------------------------------
 TODO:
 
-- Replace all_interfaces() from net.py. The new code in net3.py works.
+- [X] Replace all_interfaces() from net.py. The new code in net3.py works.
 
-- Test & find any other errors.
+- [ ] Test & find any other errors.
+
+- [X] Fix logging.
+
+    import syslog
+    syslog.syslog("This is a test message")
+    syslog.syslog(syslog.LOG_INFO, "Test message at INFO priority")
+
+- [ ] AttributeError: 'NoneType' object has no attribute 'loop'
 
 --------------------------------------------------------------------------------
 

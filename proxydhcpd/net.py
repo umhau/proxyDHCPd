@@ -41,3 +41,4 @@ def get_dev_name(ipaddr):
     for netdev in all_interfaces():
         if get_ip_address(netdev) == ipaddr:
             return netdev
+    raise OSError("Misconfigured IP address %s: IP Address not found." % ipaddr)

@@ -163,6 +163,8 @@ class ProxyDHCPD(DHCPD):
         self.server_port = server_port
         DHCPD.__init__(self,configfile,server_port=server_port)
 
+        self.loop = True
+
     def HandleDhcpDiscover(self, packet):
         self.log('debug','Noticed a DHCP Discover packet from '  + ":".join(map(self.fmtHex,packet.GetHardwareAddress())))
     
