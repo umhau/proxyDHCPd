@@ -160,8 +160,8 @@ class ProxyDHCPD(DHCPD):
                     'tftp_server_name': self.config['proxy']['tftpd']
                 } )
                 
-                if self.config['vendor_specific_information']:
-                    responsepacket.setOption('vendor_specific_information', map(ord, self.config['vendor_specific_information']))
+                if self.config['proxy']['vendor_specific_information']:
+                    responsepacket.SetOption('vendor_specific_information', map(ord, self.config['proxy']['vendor_specific_information']))
                     
                 responsepacket.DeleteOption('ip_address_lease_time')
                 self.SendDhcpPacketTo(responsepacket, ".".join(map(str,packet.GetOption('ciaddr'))), self.client_port)

@@ -24,12 +24,15 @@ import sys
 
 # DhcpPacket : base class to encode/decode dhcp packets.
 
-class DhcpBasicPacket:
+class DhcpBasicPacket():
     def __init__(self):
         self.packet_data = [0]*240
         self.options_data = {}
         self.packet_data[236:240] = MagicCookie
         self.source_address = False
+
+        print "testing init"
+        print self.packet_data
         
     def IsDhcpPacket(self):
         if self.packet_data[236:240] != MagicCookie : return False
@@ -78,7 +81,10 @@ class DhcpBasicPacket:
 
         # Basic value checking :
         # has value list a correct length
-        
+
+        print "testing setoption"
+        print self.packet_data
+
         # if name is a standard dhcp field
         if DhcpFields.has_key(name) :
             if len(value) != DhcpFields[name][1] :
