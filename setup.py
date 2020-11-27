@@ -21,7 +21,7 @@ import sys, os
 from distutils.core import setup
 
 if os.name == 'nt':
-    print "Windows installation no longer supported. :/"
+    print "Windows installation no longer supported. "
     sys.exit(1)
 else:
 	os.system("sed 's:usr:"+sys.prefix[1:]+":' bin/proxydhcpd.in >bin/proxydhcpd")
@@ -36,5 +36,5 @@ else:
     packages=['proxydhcpd',"proxydhcpd.dhcplib"],
     scripts=['bin/proxydhcpd','proxydhcpd.py'],
     data_files=[("/etc/proxyDHCPd",["proxy.ini"]),
-			  ("/etc/init.d",["scripts/proxydhcp"])]
+			  ("/etc/init.d",["scripts/proxydhcpd"])]
     )
