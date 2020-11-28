@@ -1,1 +1,1 @@
-sudo python2 proxydhcpd.py -c proxy.ini -p
+sudo python2 ./proxydhcpd.py -c proxy.ini -p -d
